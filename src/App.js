@@ -4,6 +4,7 @@ import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import {Auth} from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
 
@@ -53,8 +54,14 @@ function App() {
     await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
   }
 
+  Auth.currentAuthenticatedUser()
+    .then(user => document.getElementById("demo").innerHTML = "Hello " + user.username) 
+    .catch(err => console.log(err));
+
   return (
     <div className="App">
+
+      <h1 id="demo"> f</h1>
       <h1>My Notes App</h1>
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
