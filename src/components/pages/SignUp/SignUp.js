@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import '../../HeroSection.css';
 import Amplify from "aws-amplify";
-import {AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import {AmplifyAuthenticator, AmplifySignIn } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import awsconfig from '../../../aws-exports';
 import { I18n, Auth } from 'aws-amplify';
@@ -69,7 +69,13 @@ function SignUp() {
   } else {
     return (
       <div className='home__hero-section darkBg'>
-        <AmplifyAuthenticator />
+
+      <AmplifyAuthenticator >
+        <AmplifySignIn slot="sign-in">
+          <div slot="secondary-footer-content"></div>
+        </AmplifySignIn>
+    </AmplifyAuthenticator>
+       
       </div>
     )
   }
