@@ -1,39 +1,20 @@
-import React , { useState, useEffect } from 'react';
-import ReactDOM from "react-dom";
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { I18n, Auth, API, Storage } from 'aws-amplify';
+import { API, Storage } from 'aws-amplify';
 import { Authenticator , Greetings } from 'aws-amplify-react';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
-
-import Home from './components/pages/HomePage/Home';
-import Services from './components/pages/Services/Services';
-import Products from './components/pages/Products/Products';
-import SignUp from './components/pages/SignUp/SignUp';
-import SignOut from './components/pages/SignOut/SignOut';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/pages/Footer.js/Footer';
-import {useBetween} from "use-between";
-
-
-
+import {Auth} from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
-  const [authState, setAuthState] = useState();
-  const [authUser, setUser] = useState();
-  const [loggedIn, setLoggedIn] = useState(localStorage.getItem("token"));
-
-  I18n.setLanguage('en');
 
   useEffect(() => {
     fetchNotes();
-    
   }, []);
 
   async function fetchNotes() {
@@ -74,26 +55,14 @@ function App() {
     await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
   }
 
-
+  Auth.currentAuthenticatedUser()
+    .then(user => document.getElementById("demo").innerHTML = "Hello " + user.username) 
+    .catch(err => console.log(err));
 
   return (
-  <div>
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route path='/' exact component={Home} />
-        <Route path='/services' component={Services} />
-        <Route path='/products' component={Products} />
-        <Route path='/sign-up' component={SignUp} />
-        <Route path='/sign-out' component={SignOut} />
-      </Switch>
-      <Footer />
-    </Router>
-
-
     <div className="App">
+
       <h1 id="demo"> f</h1>
-      <h1 id="demo1"> f</h1>
       <h1>My Notes App</h1>
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
@@ -129,8 +98,7 @@ function App() {
       </Authenticator>
       <AmplifySignOut />
     </div>
-    </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App);

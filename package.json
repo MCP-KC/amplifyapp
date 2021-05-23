@@ -9,11 +9,17 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "aws-amplify": "^3.4.2",
+    "aws-amplify-react": "^5.0.0",
     "react": "^17.0.1",
+    "react-country-flag": "^2.3.0",
     "react-dom": "^17.0.1",
+    "react-flagkit": "^2.0.4",
+    "react-icons": "^4.2.0",
     "react-native": "^0.64.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.2.4",
+    "use-between": "0.0.18",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
